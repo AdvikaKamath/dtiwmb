@@ -8,9 +8,13 @@
 /*----------------------------------------------------------------------------*/
 
 #include "vex.h"
-#include "motor.cpp"
+#include "robotdevices.h"
 
 using namespace vex;
+
+#include "motor.cpp"
+
+
 
 // A global instance of competition
 competition Competition;
@@ -82,9 +86,11 @@ void autonomous(void) {
     RightMiddle.spin(fwd, rightSpeed, pct);
   
       if (Controller1.ButtonL1.pressing()) {
+//        Mogo.pump(true);
         Mogo.set(true);
               }
       else {
+//         Mogo.pump(false);
          Mogo.set(false);
       }
 
