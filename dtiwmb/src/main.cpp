@@ -8,6 +8,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "vex.h"
+#include "motor.cpp"
 
 using namespace vex;
 
@@ -27,6 +28,8 @@ competition Competition;
 /*---------------------------------------------------------------------------*/
 
 void pre_auton(void) {
+  // Initializing Robot Configuration. DO NOT REMOVE!
+  vexcodeInit();
 
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
@@ -56,22 +59,43 @@ void autonomous(void) {
 /*  a VEX Competition.                                                       */
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
-/*---------------------------------------------------------------------------*/
+/*------------------------------`---------------------------------------------*/
 
-void usercontrol(void) {
+                                                                void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
-    // This is the main execution loop for the user control program.
-    // Each time through the loop your program should update motor + servo
-    // values based on feedback from the joysticks.
+   // Read the joystick values
+    int forward = Controller1.Axis2.position();  // Left joystick Y-axis
+    int turn = Controller1.Axis1.position();     // Left joystick X-axis
 
-    // ........................................................................
-    // Insert user code here. This is where you use the joystick values to
-    // update your motors, etc.
-    // ........................................................................
+    // Calculate the speed for each side
+    int leftSpeed = forward + turn;
+    int rightSpeed = forward - turn;
 
-    wait(20, msec); // Sleep the task for a short amount of time to
-                    // prevent wasted resources.
+    // Set the motor speeds
+    LeftBack.spin(fwd, leftSpeed, pct);
+    LeftFront.spin(fwd, leftSpeed, pct);
+    LeftMiddle.spin(fwd, leftSpeed, pct);
+    
+    RightBack.spin(fwd, rightSpeed, pct);
+    RightFront.spin(fwd, rightSpeed, pct);
+    RightMiddle.spin(fwd, rightSpeed, pct);
+  
+      if (Controller1.ButtonL1.pressing()) {
+        Mogo.set(true);
+              }
+      else {
+         Mogo.set(false);
+      }
+
+  if (Controller1.ButtonR1.pressing()) {
+        IntakeS1.spin(fwd, 100, pct);
+        IntakeS2.spin(fwd, 100, pct);
+              }
+      else {
+         
+               }
+
   }
 }
 
