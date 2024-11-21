@@ -45,3 +45,8 @@ using code = vision::code;
 /* void vexcodeInit( void ) {
 
 } */
+
+void vexcodeInit() {
+    //FILL THIS IN
+    //ITS ALL THE THINGS THAT HAPPEN BEFORE THE GAME STARTS (I believe)
+}

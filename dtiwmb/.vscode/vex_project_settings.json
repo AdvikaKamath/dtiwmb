@@ -5,12 +5,12 @@
 	},
 	"project": {
 		"name": "dtiwmb",
-		"description": "",
-		"creationDate": "11/17/2024, 9:30:01 AM",
+		"description": "Team X 2024-2025 Code",
+		"creationDate": "Thu, 21 Nov 2024 05:38:39 GMT",
 		"platform": "V5",
 		"language": "cpp",
 		"slot": 2,
-		"sdkVersion": "V5_20240223_11_00_00",
+		"sdkVersion": "V5_20240802_15_00_00",
 		"cpp": {
 			"includePath": [],
 			"printf_float": true

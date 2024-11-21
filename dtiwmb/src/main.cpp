@@ -65,7 +65,7 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*------------------------------`---------------------------------------------*/
 
-                                                                void usercontrol(void) {
+void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
    // Read the joystick values
@@ -88,7 +88,7 @@ void autonomous(void) {
       if (Controller1.ButtonL1.pressing()) {
 //        Mogo.pump(true);
         Mogo.set(true);
-              }
+      }
       else {
 //         Mogo.pump(false);
          Mogo.set(false);
@@ -97,10 +97,11 @@ void autonomous(void) {
   if (Controller1.ButtonR1.pressing()) {
         IntakeS1.spin(fwd, 100, pct);
         IntakeS2.spin(fwd, 100, pct);
-              }
-      else {
-         
-               }
+  }
+  else {
+        IntakeS1.stop(coast);
+        IntakeS2.stop(coast);       
+  }
 
   }
 }
