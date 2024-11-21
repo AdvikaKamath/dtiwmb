@@ -14,10 +14,60 @@ using namespace vex;
 
 #include "motor.cpp"
 
-
-
 // A global instance of competition
 competition Competition;
+
+
+void intakeRings () {
+    static bool intakeOn;
+    intakeOn = intakeOn && (IntakeS1.direction()==forward); 
+    // For debugging
+    Brain.Screen.print("iOn: %d %d",intakeOn,(IntakeS1.direction()==forward));
+    Brain.Screen.newLine();
+    
+    if (intakeOn==false) {
+        IntakeS1.spin(fwd, 100, pct);
+        IntakeS2.spin(fwd, 100, pct);
+        intakeOn = true;
+    } else {
+        IntakeS1.stop(brake);
+        IntakeS2.stop(brake);  
+        intakeOn = false;
+    }
+    vex::this_thread::sleep_for(100);
+}
+
+void expelRings() {
+    static bool expelOn;
+    expelOn = expelOn && (IntakeS1.direction()==reverse);
+    // For debugging
+    Brain.Screen.print("eOn: %d %d",expelOn,(IntakeS1.direction()==reverse));
+    Brain.Screen.newLine();
+    if (expelOn==false) {
+        IntakeS1.spin(reverse, 100, pct);
+        IntakeS2.spin(reverse, 100, pct);
+        expelOn = true;
+    } else {
+        IntakeS1.stop(brake);
+        IntakeS2.stop(brake);       
+        expelOn = false;
+    }
+    vex::this_thread::sleep_for(100);
+}
+
+
+void mobileGoalClamp() {
+    static bool clampOn;
+
+    if (clampOn == false) {
+      Mogo.set(true);
+      clampOn = true;
+    } else {
+      Mogo.set(false);
+      clampOn = false;
+    }
+    vex::this_thread::sleep_for(100);
+}
 
 // define your global instances of motors and other devices here
 
@@ -33,7 +83,7 @@ competition Competition;
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
+  // vexcodeInit();
 
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
@@ -66,6 +116,17 @@ void autonomous(void) {
 /*------------------------------`---------------------------------------------*/
 
 void usercontrol(void) {
+ 
+
+  // Map Button R1 & R2 to Intake & Expel rings
+  // Works as a toggle
+  Controller1.ButtonR1.pressed(intakeRings);
+  Controller1.ButtonR2.pressed(expelRings);
+
+  // Map Button L1 to clamp and unclamp mobile goal
+  // Works as a toggle
+  Controller1.ButtonL1.pressed(mobileGoalClamp);
+
   // User control code here, inside the loop
   while (1) {
    // Read the joystick values
@@ -73,8 +134,9 @@ void usercontrol(void) {
     int turn = Controller1.Axis1.position();     // Left joystick X-axis
 
     // Calculate the speed for each side
-    int leftSpeed = forward + turn;
-    int rightSpeed = forward - turn;
+    // Scale down to reduce speed
+    int leftSpeed  = 0.6*(forward + turn);
+    int rightSpeed = 0.6*(forward - turn);
 
     // Set the motor speeds
     LeftBack.spin(fwd, leftSpeed, pct);
@@ -85,25 +147,8 @@ void usercontrol(void) {
     RightFront.spin(fwd, rightSpeed, pct);
     RightMiddle.spin(fwd, rightSpeed, pct);
   
-      if (Controller1.ButtonL1.pressing()) {
-//        Mogo.pump(true);
-        Mogo.set(true);
-      }
-      else {
-//         Mogo.pump(false);
-         Mogo.set(false);
-      }
-
-  if (Controller1.ButtonR1.pressing()) {
-        IntakeS1.spin(fwd, 100, pct);
-        IntakeS2.spin(fwd, 100, pct);
-  }
-  else {
-        IntakeS1.stop(coast);
-        IntakeS2.stop(coast);       
-  }
-
-  }
+  
+  } 
 }
 
 //

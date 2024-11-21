@@ -1,3 +1,5 @@
+#ifndef ROBOTDEVICES
+#define ROBOTDEVICES
 #include "vex.h"
 using namespace vex;
 
@@ -12,8 +14,9 @@ motor RightBack    = motor(PORT8, ratio6_1, false);
 motor RightMiddle  = motor(PORT7, ratio6_1, false);
 motor RightFront   = motor(PORT5, ratio6_1, false);
 motor IntakeS1     = motor(PORT2, ratio6_1, false);
-motor IntakeS2     = motor(PORT4, ratio6_1, false);
+motor IntakeS2     = motor(PORT4, ratio6_1, true);
 //inertial Inertial  = inertial(PORT14);
 
 pneumatics Mogo    = pneumatics(Brain.ThreeWirePort.A);
 //limit lswitch;
+#endif

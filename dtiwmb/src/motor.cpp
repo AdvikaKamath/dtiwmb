@@ -46,7 +46,8 @@ using code = vision::code;
 
 } */
 
-void vexcodeInit() {
-    //FILL THIS IN
-    //ITS ALL THE THINGS THAT HAPPEN BEFORE THE GAME STARTS (I believe)
-}
+// void vexcodeInit() {
+//     //FILL THIS IN
+//     //ITS ALL THE THINGS THAT HAPPEN BEFORE THE GAME STARTS (I believe)
+// }
+
