@@ -21,18 +21,21 @@ competition Competition;
 void intakeRings () {
     static bool intakeOn;
     intakeOn = intakeOn && (IntakeS1.direction()==forward); 
-    // For debugging
-    Brain.Screen.print("iOn: %d %d",intakeOn,(IntakeS1.direction()==forward));
-    Brain.Screen.newLine();
     
     if (intakeOn==false) {
         IntakeS1.spin(fwd, 100, pct);
         IntakeS2.spin(fwd, 100, pct);
         intakeOn = true;
+        // For debugging
+        Brain.Screen.print("Intake Start: %d %d",intakeOn,(IntakeS1.direction()==forward));
+        Brain.Screen.newLine();
     } else {
         IntakeS1.stop(brake);
         IntakeS2.stop(brake);  
         intakeOn = false;
+        // For debugging
+        Brain.Screen.print("Intake Stop: %d %d",intakeOn,(IntakeS1.direction()==forward));
+        Brain.Screen.newLine();
     }
     vex::this_thread::sleep_for(100);
 }
@@ -40,16 +43,19 @@ void intakeRings () {
 void expelRings() {
     static bool expelOn;
     expelOn = expelOn && (IntakeS1.direction()==reverse);
-    // For debugging
-    Brain.Screen.print("eOn: %d %d",expelOn,(IntakeS1.direction()==reverse));
-    Brain.Screen.newLine();
     if (expelOn==false) {
         IntakeS1.spin(reverse, 100, pct);
         IntakeS2.spin(reverse, 100, pct);
+        // For debugging
+        Brain.Screen.print("expel Start: %d %d",expelOn,(IntakeS1.direction()==reverse));
+        Brain.Screen.newLine();
         expelOn = true;
     } else {
         IntakeS1.stop(brake);
         IntakeS2.stop(brake);       
+        // For debugging
+        Brain.Screen.print("expel Stop: %d %d",expelOn,(IntakeS1.direction()==reverse));
+        Brain.Screen.newLine();
         expelOn = false;
     }
     vex::this_thread::sleep_for(100);
@@ -61,9 +67,15 @@ void mobileGoalClamp() {
 
     if (clampOn == false) {
       Mogo.set(true);
+      // For debugging
+      Brain.Screen.print("clamp On: %d",clampOn);
+      Brain.Screen.newLine();
       clampOn = true;
     } else {
       Mogo.set(false);
+      // For debugging
+      Brain.Screen.print("clamp Off: %d",clampOn);
+      Brain.Screen.newLine();
       clampOn = false;
     }
     vex::this_thread::sleep_for(100);
