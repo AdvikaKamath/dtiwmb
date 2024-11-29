@@ -63,6 +63,15 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+      LeftBack.spin(fwd, leftSpeed, pct);
+    LeftFront.spin(fwd, leftSpeed, pct);
+    LeftMiddle.spin(fwd, leftSpeed, pct);
+    
+    RightBack.spin(fwd, rightSpeed, pct);
+    RightFront.spin(fwd, rightSpeed, pct);
+    RightMiddle.spin(fwd, rightSpeed, pct);
+
+
 }
 
 /*---------------------------------------------------------------------------*/
