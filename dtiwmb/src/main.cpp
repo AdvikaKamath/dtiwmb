@@ -6,10 +6,11 @@
 /*    Description:  V5 project                                                */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-
+//#include "preauton.hpp"
+#include "auton.hpp"
 #include "vex.h"
 #include "robotdevices.h"
-
+//#include "preauton.hpp"
 using namespace vex;
 
 #include "motor.cpp"
@@ -81,7 +82,6 @@ void mobileGoalClamp() {
     vex::this_thread::sleep_for(100);
 }
 
-// define your global instances of motors and other devices here
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -99,6 +99,7 @@ void pre_auton(void) {
 
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -112,62 +113,22 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  const double  INCH_TO_DEG = 360*3/22.5;    // Measured on 11/28/2024 - 3 rotations : 22.5 in 
 
-  double reverse_inches = -22.5;
+      Brain.Screen.print("Calling Pre Auton code Selected : %d",display);
+      Brain.Screen.newLine();
+  AutonSelector(); 
+      Brain.Screen.print("Pre Auton code exiting, Selected : %d",display);
+      Brain.Screen.newLine();
 
-  double spin = 13;
+      Brain.Screen.print("Main Auton code Selected : %d",display);
+      Brain.Screen.newLine();
 
-  double fwdLength = 5;
+  if (display == 1) {negativeside();}
+  if (display == 2) {positiveside();}
+ 
 
-  LeftBack.setVelocity(35, pct);
-  LeftMiddle.setVelocity(35, pct);
-  LeftFront.setVelocity(35, pct);
-  RightBack.setVelocity(35, pct);
-  RightMiddle.setVelocity(35, pct);
-  RightFront.setVelocity(35, pct);
-  // All motors run at the same speed
-  
-   LeftBack.spinToPosition (reverse_inches * INCH_TO_DEG , degrees, false );
-   LeftMiddle.spinToPosition (reverse_inches * INCH_TO_DEG, degrees, false );
-   LeftFront.spinToPosition (reverse_inches * INCH_TO_DEG, degrees, false );
-   RightBack.spinToPosition (reverse_inches * INCH_TO_DEG, degrees, false );
-   RightMiddle.spinToPosition (reverse_inches * INCH_TO_DEG, degrees, false );
-   RightFront.spinToPosition (reverse_inches * INCH_TO_DEG, degrees, false );
-
-   // Make it go forward
-  vex::this_thread::sleep_for(1000);
-  // mOGO CLAMP
-  Mogo.set(true);
-
-  // Run intake
-  IntakeS1.spin(fwd,100, pct);
-  IntakeS2.spin(fwd,100, pct);
-  vex::this_thread::sleep_for(100);
-  // Turn
-  LeftBack.spinToPosition (spin * INCH_TO_DEG , degrees, false );
-  LeftMiddle.spinToPosition (spin * INCH_TO_DEG, degrees, false );
-  LeftFront.spinToPosition (spin * INCH_TO_DEG, degrees, true );
-
-  vex::this_thread::sleep_for(100);
-
-   // Reset Position
-   LeftBack.resetPosition ();
-   LeftMiddle.resetPosition ();
-   LeftFront.resetPosition ();
-   RightBack.resetPosition ();
-   RightMiddle.resetPosition ();
-   RightFront.resetPosition ();
-
-  vex::this_thread::sleep_for(100);
-  LeftBack.spinToPosition (fwdLength * INCH_TO_DEG , degrees, false );
-  LeftMiddle.spinToPosition (fwdLength * INCH_TO_DEG, degrees, false );
-  LeftFront.spinToPosition (fwdLength * INCH_TO_DEG, degrees, false );
-  RightBack.spinToPosition (fwdLength * INCH_TO_DEG, degrees, false );
-  RightMiddle.spinToPosition (fwdLength * INCH_TO_DEG, degrees, false );
-  RightFront.spinToPosition (fwdLength * INCH_TO_DEG, degrees, false );
-
-
+  Controller1.Screen.setCursor(1, 1);
+  Controller1.Screen.print("Done");
 }
 
 /*---------------------------------------------------------------------------*/
