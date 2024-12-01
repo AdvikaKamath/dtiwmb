@@ -1,3 +1,6 @@
+#ifndef AUTONHPP
+#define AUTONHPP
+
 #include "vex.h"
 #include "robotdevices.h"
 #include "preauton.hpp"
@@ -109,3 +112,6 @@ void positiveside (void) {
   goStraight(ladder, true);
   CtrlDbgPrt("Forward to ladder");
 }
+
+
+#endif

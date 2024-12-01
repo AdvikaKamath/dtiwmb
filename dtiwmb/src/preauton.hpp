@@ -1,4 +1,7 @@
 
+#ifndef PREAUTON
+#define PREAUTON
+
 #include "vex.h"
 #include "robotdevices.h"
 
@@ -9,8 +12,9 @@ using namespace vex;
 //auton selector
 
 
+/**  OLD AUTON SELECTOR  */
 
-void describe(int number) {
+/* void describe(int number) {
   Controller1.Screen.setCursor(4, 1);
 
 
@@ -21,36 +25,45 @@ void describe(int number) {
 }
 
 
-int autons = 3;
+int autons = 2;
 int display = 0;
 
 
+void incr_display() {display = (display + 1) % autons + 1;}
+void decr_display() {display = (display - 1) % autons + 1;}
+
 void AutonSelector() {
   Controller1.Screen.clearScreen();
-  //vex::this_thread::sleep_for(100);
+  Controller1.Screen.setCursor(1, 1);
+  Controller1.ButtonX.pressed(incr_display);
+  Controller1.ButtonB.pressed(decr_display);
+  // Controller1.ButtonA.pressed(_display);
+  
+  Controller1.Screen.print("Choose Your Program");
+  vex::this_thread::sleep_for(100);
 
-  while(1){
+  while(display == 0){
+    Brain.Screen.print(".");
 
-
-   if (Controller1.ButtonRight.pressing()) { 
-      display = (display + 1) % autons;
-      Brain.Screen.print("Selector Auton Selected : %d",display);
-      Brain.Screen.newLine();
-    }
-    if (Controller1.ButtonLeft.pressing()) {
-      display = (display - 1) % autons;
-    //   vex::this_thread::sleep_for(100);
-      Brain.Screen.print("Selector Auton Selected : %d",display);
-      Brain.Screen.newLine();
-    }
-    if (Controller1.ButtonA.pressing()) {
-    //   vex::this_thread::sleep_for(1000);
-      if (Controller1.ButtonA.pressing()) {
-        Controller1.rumble(rumbleLong);
-    //    Controller1.Screen.clearScreen();
-        break;
-      }
-    }
+//    if (Controller1.ButtonX.pressing()) { 
+      
+//       Brain.Screen.print("R1 Selector Auton Selected : %d",display);
+//       Brain.Screen.newLine();
+//     }
+//     if (Controller1.ButtonB.pressing()) {
+//       display = (display - 1) % autons + 1;
+//     //   vex::this_thread::sleep_for(100);
+//       Brain.Screen.print("L1 Selector Auton Selected : %d",display);
+//       Brain.Screen.newLine();
+//     }
+    // if (Controller1.ButtonA.pressing()) {
+    // //   vex::this_thread::sleep_for(1000);
+    // //   if (Controller1.ButtonA.pressing()) {
+    //     Controller1.rumble(rumbleLong);
+    // //    Controller1.Screen.clearScreen();
+    //     break;
+    // //   }
+    // }
 
     // if (display > autons) {display = 0;}
     // if (display < 0) {display = autons;}
@@ -58,17 +71,17 @@ void AutonSelector() {
 
     if (display == 0) {
     //  Controller1.Screen.clearScreen();
-      Controller1.Screen.setCursor(1, 1);
-      Controller1.Screen.print("Choose Your Program");
+    //  Controller1.Screen.setCursor(1, 1);
+    //   Controller1.Screen.print("Choose Your Program");
     }        
     if (display != 0) {
     //  Controller1.Screen.clearScreen();
-      Controller1.Screen.setCursor(1, 1);
-      Controller1.Screen.print("Selected:");
-      Controller1.Screen.setCursor(4, 1);
-      describe(display);
+    //   Controller1.Screen.setCursor(1, 1);
+    //   Controller1.Screen.print("Selected:");
+    //   Controller1.Screen.setCursor(4, 1);
+    //  describe(display);
     }
-    // vex::this_thread::sleep_for(100);
+    vex::this_thread::sleep_for(100);
   }
   //Controller1.Screen.clearScreen();
   Controller1.Screen.setCursor(1, 1);
@@ -77,17 +90,9 @@ void AutonSelector() {
   //Controller1.Screen.clearScreen();
 }
 
+ */
 
-
-
-
-
-
-
-
-
-
-// Auton...
+// Auton Functions
 
 
 void CtrlDbgPrt (const char * str) {
@@ -138,5 +143,6 @@ void turn (double angle, bool left) {
 }
 
 
+#endif
 
 

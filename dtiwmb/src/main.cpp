@@ -10,6 +10,7 @@
 #include "auton.hpp"
 #include "vex.h"
 #include "robotdevices.h"
+#include "buttonapi.hpp"
 //#include "preauton.hpp"
 using namespace vex;
 
@@ -113,22 +114,16 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-
-      Brain.Screen.print("Calling Pre Auton code Selected : %d",display);
-      Brain.Screen.newLine();
-  AutonSelector(); 
-      Brain.Screen.print("Pre Auton code exiting, Selected : %d",display);
-      Brain.Screen.newLine();
-
-      Brain.Screen.print("Main Auton code Selected : %d",display);
-      Brain.Screen.newLine();
-
-  if (display == 1) {negativeside();}
-  if (display == 2) {positiveside();}
  
+   Controller1.Screen.clearScreen();
+   Controller1.Screen.setCursor(1, 1);
+   Controller1.Screen.print("Auton sel %d",autonomousSelection);
 
-  Controller1.Screen.setCursor(1, 1);
-  Controller1.Screen.print("Done");
+  switch(autonomousSelection) {
+    case 0: {negativeside();}
+    case 1: {positiveside();}
+    default: ;
+  }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -181,12 +176,28 @@ void usercontrol(void) {
 // Main will set up the competition functions and callbacks.
 //
 int main() {
+  // Run the pre-autonomous function.
+  pre_auton();
+
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
-  // Run the pre-autonomous function.
-  pre_auton();
+    // register events for button selection
+    Brain.Screen.pressed( userTouchCallbackPressed );
+    Brain.Screen.released( userTouchCallbackReleased );
+
+    // make nice background
+    Brain.Screen.setFillColor( vex::color(0x404040) );
+    Brain.Screen.setPenColor( vex::color(0x404040) );
+    Brain.Screen.drawRectangle( 0, 0, 480, 120 );
+    Brain.Screen.setFillColor( vex::color(0x808080) );
+    Brain.Screen.setPenColor( vex::color(0x808080) );
+    Brain.Screen.drawRectangle( 0, 120, 480, 120 );
+
+    // initial display
+    displayButtonControls( 0, false );
+
 
   // Prevent main from exiting with an infinite loop.
   while (true) {
