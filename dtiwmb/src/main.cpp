@@ -6,82 +6,17 @@
 /*    Description:  V5 project                                                */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-//#include "preauton.hpp"
-#include "auton.hpp"
 #include "vex.h"
 #include "robotdevices.h"
 #include "buttonapi.hpp"
-//#include "preauton.hpp"
+#include "robotfunctions.hpp"
+#include "auton.hpp"
 using namespace vex;
 
 #include "motor.cpp"
 
 // A global instance of competition
 competition Competition;
-
-
-void intakeRings () {
-    static bool intakeOn;
-    intakeOn = intakeOn && (IntakeS1.direction()==forward); 
-    
-    if (intakeOn==false) {
-        IntakeS1.spin(fwd, 100, pct);
-        IntakeS2.spin(fwd, 100, pct);
-        intakeOn = true;
-        // For debugging
-        Brain.Screen.print("Intake Start: %d %d",intakeOn,(IntakeS1.direction()==forward));
-        Brain.Screen.newLine();
-    } else {
-        IntakeS1.stop(brake);
-        IntakeS2.stop(brake);  
-        intakeOn = false;
-        // For debugging
-        Brain.Screen.print("Intake Stop: %d %d",intakeOn,(IntakeS1.direction()==forward));
-        Brain.Screen.newLine();
-    }
-    vex::this_thread::sleep_for(100);
-}
-
-void expelRings() {
-    static bool expelOn;
-    expelOn = expelOn && (IntakeS1.direction()==reverse);
-    if (expelOn==false) {
-        IntakeS1.spin(reverse, 100, pct);
-        IntakeS2.spin(reverse, 100, pct);
-        // For debugging
-        Brain.Screen.print("expel Start: %d %d",expelOn,(IntakeS1.direction()==reverse));
-        Brain.Screen.newLine();
-        expelOn = true;
-    } else {
-        IntakeS1.stop(brake);
-        IntakeS2.stop(brake);       
-        // For debugging
-        Brain.Screen.print("expel Stop: %d %d",expelOn,(IntakeS1.direction()==reverse));
-        Brain.Screen.newLine();
-        expelOn = false;
-    }
-    vex::this_thread::sleep_for(100);
-}
-
-
-void mobileGoalClamp() {
-    static bool clampOn;
-
-    if (clampOn == false) {
-      Mogo.set(true);
-      // For debugging
-      Controller1.Screen.print("clamp On: %d",clampOn);
-      Controller1.Screen.newLine();
-      clampOn = true;
-    } else {
-      Mogo.set(false);
-      // For debugging
-      Controller1.Screen.print("clamp Off: %d",clampOn);
-      Controller1.Screen.newLine();
-      clampOn = false;
-    }
-    vex::this_thread::sleep_for(100);
-}
 
 
 /*---------------------------------------------------------------------------*/
@@ -120,8 +55,8 @@ void autonomous(void) {
    Controller1.Screen.print("Auton sel %d",autonomousSelection);
 
   switch(autonomousSelection) {
-    case 0: {negativeside();}
-    case 1: {positiveside();}
+    case 0: {oneMplusoneR(true);}  // set to true when going for positive side
+    case 1: {oneMplusoneR(false);}   // set to false when going for negative side
     default: ;
   }
 }
@@ -160,13 +95,15 @@ void usercontrol(void) {
     int rightSpeed = forward - turn;
 
     // Set the motor speeds
-    LeftBack.spin(fwd, leftSpeed, pct);
-    LeftFront.spin(fwd, leftSpeed, pct);
-    LeftMiddle.spin(fwd, leftSpeed, pct);
-    
-    RightBack.spin(fwd, rightSpeed, pct);
-    RightFront.spin(fwd, rightSpeed, pct);
-    RightMiddle.spin(fwd, rightSpeed, pct);
+ 
+     LeftMotorGrp.spin(fwd,leftSpeed,pct);
+    // LeftBack.spin(fwd, leftSpeed, pct);
+    // LeftFront.spin(fwd, leftSpeed, pct);
+    // LeftMiddle.spin(fwd, leftSpeed, pct);
+      RightMotorGrp.spin(fwd, rightSpeed, pct);
+    // RightBack.spin(fwd, rightSpeed, pct);
+    // RightFront.spin(fwd, rightSpeed, pct);
+    // RightMiddle.spin(fwd, rightSpeed, pct);
   
   
   } 
@@ -201,6 +138,7 @@ int main() {
 
   // Prevent main from exiting with an infinite loop.
   while (true) {
+    printTemps();  // Prints motor temperature on the controller
     wait(100, msec);
   }
 }

@@ -23,6 +23,9 @@ motor IntakeS1     = motor(PORT2, ratio6_1, false);
 motor IntakeS2     = motor(PORT4, ratio6_1, true);
 //inertial Inertial  = inertial(PORT14);
 
+motor_group IntakesGrp = motor_group(IntakeS1, IntakeS2);
+
+
 pneumatics Mogo    = pneumatics(Brain.ThreeWirePort.A);
 //limit lswitch;
 #endif
