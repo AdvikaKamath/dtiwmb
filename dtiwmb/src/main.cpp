@@ -70,9 +70,29 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*------------------------------`---------------------------------------------*/
+void intakeRings () {
+    static bool intakeOn;
+    intakeOn = intakeOn && (IntakeS1.direction()==forward); 
+    
+    if (intakeOn==false) {
+        IntakeS1.spin(fwd, 100, pct);
+        IntakeS2.spin(fwd, 100, pct);
+        intakeOn = true;
+        
+    } else {
+        IntakeS1.stop(brake);
+        IntakeS2.stop(brake);  
+        intakeOn = false;
+       
+  
+    }
+    vex::this_thread::sleep_for(100);
+}
+
 
 void usercontrol(void) {
  
+
 
   // Map Button R1 & R2 to Intake & Expel rings
   // Works as a toggle

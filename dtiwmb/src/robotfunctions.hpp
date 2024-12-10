@@ -4,27 +4,7 @@
 #include "robotdevices.h"
 
 
-void intakeRings () {
-    static bool intakeOn;
-    intakeOn = intakeOn && (IntakeS1.direction()==forward); 
-    
-    if (intakeOn==false) {
-        IntakeS1.spin(fwd, 100, pct);
-        IntakeS2.spin(fwd, 100, pct);
-        intakeOn = true;
-        // For debugging
-        Brain.Screen.print("Intake Start: %d %d",intakeOn,(IntakeS1.direction()==forward));
-        Brain.Screen.newLine();
-    } else {
-        IntakeS1.stop(brake);
-        IntakeS2.stop(brake);  
-        intakeOn = false;
-        // For debugging
-        Brain.Screen.print("Intake Stop: %d %d",intakeOn,(IntakeS1.direction()==forward));
-        Brain.Screen.newLine();
-    }
-    vex::this_thread::sleep_for(100);
-}
+
 
 void expelRings() {
     static bool expelOn;
